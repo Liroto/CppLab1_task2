@@ -1,20 +1,82 @@
-﻿// CppLab1_task2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include <string>
+#include <array>
+using namespace std;
 
-#include <iostream>
+
+int *initializationArray(int LENGTH) //функция принимает ТОЛЬКО длину массива из функции main()
+{
+	int *arr = new int[LENGTH];
+
+	for (int i = 0; i < LENGTH; i++)
+	{
+		arr[i] = pow(i, 2) + 1;
+		if (i % 2 == 0) arr[i] *= -1;
+		cout << arr[i] << " ";
+	}
+	cout << "Initialization function is finished.\n" << endl;
+	return arr;
+	delete[] arr;
+}
+
+void transformationArray(int arr[], int LENGTH, int rows, int columns) //функция принимает массив из функции initializationArray()
+{
+	//ЭТАП 1: Сортировка входящего массива в порядке убывания
+	int temp = 0;
+
+	for (int i = 0; i < LENGTH; i++)
+	{
+		for (int j = i + 1; j < LENGTH; j++)
+		{
+			if (arr[i] < arr[j])
+			{
+				temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		}
+		cout << arr[i] << " ";
+	}
+
+	cout << "Sorting is finished.\n" << endl;
+
+	//ЭТАП 2: 1D -> 2D
+
+	int **twoDimensional = new int*[rows];
+
+	for (int i = 0; i < rows; i++)
+	{
+		twoDimensional[i] = new int[columns];
+	}
+
+	
+	int helper = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			twoDimensional[i][j] = arr[helper];
+			helper++;
+			printf("%5i", twoDimensional[i][j]);
+		}
+		cout << endl;
+	}
+
+
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] twoDimensional[i];
+	}
+	delete[] twoDimensional;
+
+	cout << "Transformation function is finished.\n" << endl;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	int initLENGTH = 18, initRows = 9, initColumns = 2;
+
+	transformationArray(initializationArray(initLENGTH), initLENGTH, initRows, initColumns);
+
+	cout << "Main function is finished." << endl;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
